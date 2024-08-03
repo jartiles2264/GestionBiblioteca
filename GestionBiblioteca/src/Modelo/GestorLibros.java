@@ -69,6 +69,17 @@ public class GestorLibros {
         libros.removeIf(libro -> libro.getIsbn().equals(isbn));
         guardarDatosLibros();
     }
+    
+    public List<Libro> buscarLibrosPorCategoria(String categoria) {
+        List<Libro> librosEncontrados = new ArrayList<>();
+        for (Libro libro : libros) {
+            if (libro.getCategoria().equalsIgnoreCase(categoria)) {
+                librosEncontrados.add(libro);
+            }
+        }
+        return librosEncontrados;
+    }
+
 
     public Libro buscarLibroPorIsbn(String isbn) {
         for (Libro libro : libros) {

@@ -70,6 +70,15 @@ public class FrmVistaPrincipal extends JFrame {
         });
         mnBiblioteca.add(menuItemMostrarLibros);
 
+        JMenuItem menuItemBuscarPorCategoria = new JMenuItem("Buscar por Categoría");
+        menuItemBuscarPorCategoria.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                FrmBuscarPorCategoria frmBuscarPorCategoria = new FrmBuscarPorCategoria(gestorLibros);
+                frmBuscarPorCategoria.setVisible(true);
+            }
+        });
+        mnBiblioteca.add(menuItemBuscarPorCategoria);
+
         if (esAdmin) {
             JMenu mnGestionarLibros = new JMenu("Gestionar Libros");
             mnGestionarLibros.setFont(new Font("Segoe UI", Font.BOLD, 18));
