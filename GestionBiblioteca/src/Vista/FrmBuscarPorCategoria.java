@@ -56,8 +56,15 @@ public class FrmBuscarPorCategoria extends JFrame {
         List<Libro> libros = gestorLibros.buscarLibrosPorCategoria(categoria);
 
         String[] columnas = {"Categoría", "Título", "Autor", "Año", "Código", "Disponible"};
-        DefaultTableModel modelo = new DefaultTableModel(columnas, 0);
+        DefaultTableModel modelo = new DefaultTableModel(columnas, 0) {
+			private static final long serialVersionUID = 1L;
 
+			@Override
+            public boolean isCellEditable(int row, int column) {
+                return false; 
+            }
+        };
+        
         for (Libro libro : libros) {
             Object[] fila = {
                 libro.getCategoria(),

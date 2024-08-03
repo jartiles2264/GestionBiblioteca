@@ -15,6 +15,7 @@ public class JOptionLogin extends JFrame {
     private JPasswordField JPassContrasena;
     private String cargo;
     private CtrlInicioSesion controlador;
+    private JButton btnRetroceder; // Agregado para retroceder
 
     public JOptionLogin(CtrlInicioSesion controlador) {
         this.controlador = controlador;
@@ -28,8 +29,9 @@ public class JOptionLogin extends JFrame {
     private void initialize() {
         setTitle("Ariel y su Biblioteca");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 654, 252);
+        setBounds(100, 100, 654, 300); // Ajustado para el botón adicional
 
+        // Muestra el diálogo para seleccionar el sistema
         int eleccion = JOptionPane.showOptionDialog(
                 null,
                 "Seleccione el sistema al cual desea ingresar.",
@@ -106,6 +108,21 @@ public class JOptionLogin extends JFrame {
         btnLogin.setBackground(new Color(255, 255, 255));
         btnLogin.setFont(new Font("Uni Neue Regular", Font.BOLD, 14));
         contentPane.add(btnLogin);
+
+        // Botón para retroceder
+        btnRetroceder = new JButton("Retroceder");
+        btnRetroceder.setBounds(469, 150, 139, 44);
+        btnRetroceder.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Cierra la ventana actual y vuelve al diálogo de selección
+                JOptionLogin.this.dispose();
+                new JOptionLogin(controlador).setVisible(true);
+            }
+        });
+        btnRetroceder.setAlignmentX(Component.CENTER_ALIGNMENT);
+        btnRetroceder.setBackground(new Color(255, 255, 255));
+        btnRetroceder.setFont(new Font("Uni Neue Regular", Font.BOLD, 14));
+        contentPane.add(btnRetroceder);
     }
 
     public void setControlador(CtrlInicioSesion controlador) {

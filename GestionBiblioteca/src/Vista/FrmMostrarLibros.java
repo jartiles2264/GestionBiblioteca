@@ -31,9 +31,7 @@ public class FrmMostrarLibros extends JFrame {
         String[] columnNames = {"Categoría", "Título", "Autor", "Año", "ISBN", "Disponible"};
         
         DefaultTableModel model = new DefaultTableModel(columnNames, 0) {
-            /**
-			 * 
-			 */
+
 			private static final long serialVersionUID = 1L;
 
 			@Override
