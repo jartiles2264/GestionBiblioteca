@@ -4,6 +4,7 @@ import Controlador.CtrlInicioSesion;
 import Modelo.GestorEstudiantes;
 import Modelo.GestorAdministradores;
 import Modelo.GestorLibros;
+import Modelo.Inventario;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -14,10 +15,12 @@ import java.awt.event.ActionListener;
 public class FrmVistaPrincipal extends JFrame {
     private static final long serialVersionUID = 1L;
     private GestorLibros gestorLibros;
+    private Inventario inventario;
     private boolean esAdmin;
 
-    public FrmVistaPrincipal(GestorLibros gestorLibros, boolean esAdmin) {
+    public FrmVistaPrincipal(GestorLibros gestorLibros, Inventario inventario, boolean esAdmin) {
         this.gestorLibros = gestorLibros;
+        this.inventario = inventario;
         this.esAdmin = esAdmin;
         inicializar();
     }
@@ -47,7 +50,14 @@ public class FrmVistaPrincipal extends JFrame {
 
                     JOptionLogin vistaLogin = new JOptionLogin();
 
-                    CtrlInicioSesion controlador = new CtrlInicioSesion(gestorEstudiantes, gestorAdministradores, vistaLogin);
+                    // Crear el controlador con todos los parámetros necesarios
+                    CtrlInicioSesion controlador = new CtrlInicioSesion(
+                        gestorEstudiantes, 
+                        gestorAdministradores, 
+                        gestorLibros, 
+                        inventario, 
+                        vistaLogin
+                    );
 
                     vistaLogin.setControlador(controlador);
 
@@ -64,7 +74,7 @@ public class FrmVistaPrincipal extends JFrame {
         JMenuItem menuItemMostrarLibros = new JMenuItem("Mostrar Todos los Libros");
         menuItemMostrarLibros.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                FrmMostrarLibros frmMostrarLibros = new FrmMostrarLibros(gestorLibros);
+                FrmMostrarLibros frmMostrarLibros = new FrmMostrarLibros(gestorLibros, inventario);
                 frmMostrarLibros.setVisible(true);
             }
         });
@@ -73,12 +83,29 @@ public class FrmVistaPrincipal extends JFrame {
         JMenuItem menuItemBuscarPorCategoria = new JMenuItem("Buscar por Categoría");
         menuItemBuscarPorCategoria.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                FrmBuscarPorCategoria frmBuscarPorCategoria = new FrmBuscarPorCategoria(gestorLibros);
+                FrmBuscarPorCategoria frmBuscarPorCategoria = new FrmBuscarPorCategoria(gestorLibros, inventario);
                 frmBuscarPorCategoria.setVisible(true);
             }
         });
         mnBiblioteca.add(menuItemBuscarPorCategoria);
 
+        // Condicional para mostrar el menú de Inventario solo para estudiantes
+        if (!esAdmin) {
+            JMenu mnInventario = new JMenu("Inventario");
+            mnInventario.setFont(new Font("Segoe UI", Font.BOLD, 18));
+            menuBar.add(mnInventario);
+
+            JMenuItem menuItemVerInventario = new JMenuItem("Ver Inventario");
+            menuItemVerInventario.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    FrmInventario frmInventario = new FrmInventario(inventario);
+                    frmInventario.setVisible(true);
+                }
+            });
+            mnInventario.add(menuItemVerInventario);
+        }
+
+        // Menú de gestión de libros solo para administradores
         if (esAdmin) {
             JMenu mnGestionarLibros = new JMenu("Gestionar Libros");
             mnGestionarLibros.setFont(new Font("Segoe UI", Font.BOLD, 18));
